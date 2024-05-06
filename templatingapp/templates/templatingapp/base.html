@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ data }}</h1>
+    <form action="{% url "create_task" %}" method="POST">
+        {% csrf_token %}
+        {% for form_field  in form  %}
+            {{ form_field.label_tag }}
+            {{ form_field }}
+            {{ form_field.errors }}
+        {% endfor %}
+    
+    <input type="submit" value="Submit">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>Details</th>
+                <th>no_people</th>
+                <th>day_of_week</th>
+                <th>
+                    ACTION
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasklist %}
+            <tr>
+                <td>{{ task.name }}</td>
+                <td>{{ task.details }}</td>
+                <td>{{ task.no_people }}</td>
+                <td>{{ task.day_of_week }}</td>
+                <td>
+                    <a href="{% url "delete_task" task.id %}">Delete</a>
+                    <a href="{% url "update_task" task.id %}">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
